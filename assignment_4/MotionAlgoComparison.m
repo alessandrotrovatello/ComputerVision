@@ -2,52 +2,46 @@ clc
 clear
 close all
 
-addpath("Code_and_images\Code_and_images\")
-addpath("Data\Data\videosurveillance\")
-% addpath("Data\Data\stennis\")
-% addpath("Data\Data\sphere\")
+%% Optical Flow
 
-%% optical flow:
+addpath('Data\sflowg\'); elements_list = dir(fullfile('Data\sflowg\'));
+%addpath('Data\sphere\'); elements_list = dir(fullfile('Data\sphere\'));
+%addpath('Data\statua\'); elements_list = dir(fullfile('Data\statua\'));
+%addpath('Data\stennis\'); elements_list = dir(fullfile('Data\stennis\'));
+%addpath('Data\videosurveillance\'); elements_list = dir(fullfile('Data\videosurveillance\'));
 
-directory = 'C:\Users\ambra\Documents\CV\lab7\optical_flow\optical_flow\Data\sphere';
-% directory = 'C:\Users\ambra\Documents\CV\lab7\optical_flow\optical_flow\Data\videosurveillance';
-% directory = 'C:\Users\ambra\Documents\CV\lab7\optical_flow\optical_flow\Data\stennis';
+numberOfImages = length(elements_list);
+images = cell(1,numberOfImages-2); 
 
-files = dir(fullfile(directory, '*.ppm'));
-
-images = cell(1, numel(files));
-percorso=cell(1,numel(files));
-for i = 1:numel(files)
-    percorso{i} = fullfile(directory, files(i).name);
-    images{i} = imread(percorso{i});
-    images{i}=rgb2gray(images{i});
+for i=1:numberOfImages-2
+    images{i} = imread(i+".ppm");
 end
-
 
 dim=max(size(images));
 u=zeros(dim,1);
 v=zeros(dim,1);
-for i=1:dim
+for i=1:numberOfImages-1
     if i~=20
-        [u,v]=TwoFramesLK(percorso{i},percorso{i+1},3);
-        map=zeros(size(im1),dim);
+        [u,v]=TwoFramesLK(images{i},images{i+1},3,i);
+        map=zeros(size(u,1),size(u,2));
         map=sqrt(u.*u+v.*v);
-        figure
-        subplot()
+        subplot(2,2,4)
         imshow(map)
+        title("Magnitude of the optical flow")
     end
 end
 
-%% running average:
-% [Mt1,FIRST_IDX1, LAST_IDX1]=change_detection();
-[Mt2,FIRST_IDX2, LAST_IDX2,N]=background_model_based();
+%% Running Average:
+
+%[Mt1,FIRST_IDX1, LAST_IDX1]=change_detection();
+[Mt2,numberOfImages,N]=background_model_based();
 % figure
 % for t = FIRST_IDX1 : LAST_IDX1
 %     imshow(uint8(Mt1*255));
 %     pause(0.1)
 % end
 figure
-for t = FIRST_IDX2+N : LAST_IDX2
+for t = 1:numberOfImages
     imshow(uint8(Mt2*255));
     pause(0.1)
 end
