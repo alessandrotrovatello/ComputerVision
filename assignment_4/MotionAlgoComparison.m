@@ -1,13 +1,12 @@
-clc
-clear
-close all
+% Lab7 of Computer Vision, Robotics Engineering cohort 2023/2024
+% Curated by Ierardi Ambra, Scorrano Andrea, Trovatello Alessandro
 
-%% Optical Flow
+clc, clear, close all
 
-addpath('Data\sflowg\'); elements_list = dir(fullfile('Data\sflowg\'));
+%addpath('Data\sflowg\'); elements_list = dir(fullfile('Data\sflowg\'));
 %addpath('Data\sphere\'); elements_list = dir(fullfile('Data\sphere\'));
 %addpath('Data\statua\'); elements_list = dir(fullfile('Data\statua\'));
-%addpath('Data\stennis\'); elements_list = dir(fullfile('Data\stennis\'));
+addpath('Data\stennis\'); elements_list = dir(fullfile('Data\stennis\'));
 %addpath('Data\videosurveillance\'); elements_list = dir(fullfile('Data\videosurveillance\'));
 
 numberOfImages = length(elements_list);
@@ -17,31 +16,19 @@ for i=1:numberOfImages-2
     images{i} = imread(i+".ppm");
 end
 
+[Mt2,numberOfImages,N]=background_model_based(false); % Set the parameter to 'true' to print the frames
 dim=max(size(images));
 u=zeros(dim,1);
 v=zeros(dim,1);
-for i=1:numberOfImages-1
-    if i~=20
-        [u,v]=TwoFramesLK(images{i},images{i+1},3,i);
-        map=zeros(size(u,1),size(u,2));
-        map=sqrt(u.*u+v.*v);
-        subplot(2,2,4)
-        imshow(map)
-        title("Magnitude of the optical flow")
-    end
-end
-
-%% Running Average:
-
-%[Mt1,FIRST_IDX1, LAST_IDX1]=change_detection();
-[Mt2,numberOfImages,N]=background_model_based();
-% figure
-% for t = FIRST_IDX1 : LAST_IDX1
-%     imshow(uint8(Mt1*255));
-%     pause(0.1)
-% end
-figure
-for t = 1:numberOfImages
-    imshow(uint8(Mt2*255));
-    pause(0.1)
+for i=1:dim-1
+    [u,v]=TwoFramesLK(images{i},images{i+1},3,i);
+    map=zeros(size(u,1),size(u,2));
+    map=sqrt(u.*u+v.*v);
+    subplot(1,2,1)
+    imshow(map)
+    title("Magnitude of the optical flow");
+    subplot(1,2,2)
+    imshow(uint8(Mt2(:,:,i)*255));
+    title('Binary map');
+    pause(0.05)
 end

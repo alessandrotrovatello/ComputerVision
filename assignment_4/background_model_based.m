@@ -1,12 +1,18 @@
-%% Task 2: working again on the videosurveillance sequence, use now a background model based 
+%% Background model based
 
-function [Mt,numberOfImages,N]=background_model_based()
+function [Mt,numberOfImages,N]=background_model_based(print_images)
+% INPUT:
+%       print_images: boolean variable to choose if print the images.
+% OUTPUT:
+%       Mt: Binary map.
+%       numberOfImages: number of images of dataset used.
+%       N: constant to initialize the background
+%---------------------------------------------------------------------
 % on running average to incorporate scene changes
  
-%addpath('Data\videosurveillance\');
-addpath('Data\stennis\');
-%elements_list = dir(fullfile('Data\videosurveillance\'));
-elements_list = dir(fullfile('Data\stennis\'));
+%addpath('Data\videosurveillance\'), elements_list = dir(fullfile('Data\videosurveillance\'));
+addpath('Data\stennis\'), elements_list = dir(fullfile('Data\stennis\'));
+
 numberOfImages = length(elements_list);
 images = cell(1,numberOfImages-2);
  
@@ -39,7 +45,7 @@ for t = 1:numberOfImages-3
     It = images{t+1};
     Ig = rgb2gray(It);
     
-    Mt = (abs(double(Ig) - Bprev) > TAU);
+    Mt(:,:,t) = (abs(double(Ig) - Bprev) > TAU);
     
     % Implement the background update as a running average (SEE THE SLIDES)
  
@@ -52,10 +58,12 @@ for t = 1:numberOfImages-3
     else
         Bt = (1-ALPHA) * Bprev + ALPHA * double(Ig);
     end
-    %keyboard
-    subplot(1, 3, 1), imshow(It);
-    subplot(1, 3, 2), imshow(uint8(Bt));
-    subplot(1, 3, 3), imshow(uint8(Mt*255));
+   
+    if print_images
+        subplot(1, 3, 1), imshow(It), title(['Frame ' num2str(t)]);
+        subplot(1, 3, 2), imshow(uint8(Bt)), title(['Background model of frame ' num2str(t-1)]);
+        subplot(1, 3, 3), imshow(uint8(Mt(:,:,t)*255)), title('Binary map');
+    end
     pause(0.1)
     Bprev = Bt;
     

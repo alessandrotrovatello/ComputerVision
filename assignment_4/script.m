@@ -1,4 +1,5 @@
-
+% Lab7 of Computer Vision, Robotics Engineering cohort 2023/2024
+% Curated by Ierardi Ambra, Scorrano Andrea, Trovatello Alessandro
 
 clc,clear,close all
 
