@@ -21,13 +21,13 @@ dim=max(size(images));
 u=zeros(dim,1);
 v=zeros(dim,1);
 for i=1:dim-1
-    [u,v]=TwoFramesLK(images{i},images{i+1},3,i);
+    [u,v]=TwoFramesLK(images{i},images{i+1},3,i,false);
     map=zeros(size(u,1),size(u,2));
     map=sqrt(u.*u+v.*v);
-    subplot(1,2,1)
+    subplot(2,2,3)
     imshow(map)
     title("Magnitude of the optical flow");
-    subplot(1,2,2)
+    subplot(2,2,4)
     imshow(uint8(Mt2(:,:,i)*255));
     title('Binary map');
     pause(0.05)

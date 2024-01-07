@@ -63,6 +63,7 @@ for t = 1:numberOfImages-3
         subplot(1, 3, 1), imshow(It), title(['Frame ' num2str(t)]);
         subplot(1, 3, 2), imshow(uint8(Bt)), title(['Background model of frame ' num2str(t-1)]);
         subplot(1, 3, 3), imshow(uint8(Mt(:,:,t)*255)), title('Binary map');
+        set_subplot(800,600);
     end
     pause(0.1)
     Bprev = Bt;
