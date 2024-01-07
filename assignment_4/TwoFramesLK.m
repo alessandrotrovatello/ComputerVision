@@ -27,8 +27,9 @@ title(['Frame ' num2str(index+1)]);
 %than 10) is unreadable
 if gradient
     subplot(2,2,3)
-    quiver(Uf(1:10:size(Uf,1), 1:10:size(Uf,2)), Vf(1:10:size(Vf,1), 1:10:size(Vf,2)))
+    quiver(Uf(1:10:size(Uf,1), 1:10:size(Uf,2)), -Vf(1:10:size(Vf,1), 1:10:size(Vf,2)))
     title("Gradient")
+    axis ij
 end
 
 %Uso quiver(u, -v, 0) per visualizzare il campo vettoriale (u,v)
