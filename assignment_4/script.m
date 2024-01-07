@@ -18,4 +18,5 @@ end
 
 for i=1:numberOfImages-3
     TwoFramesLK(images{i},images{i+1},3,i,true);
+    set_subplot(800,600);
 end

@@ -20,6 +20,7 @@ end
 dim=max(size(images));
 u=zeros(dim,1);
 v=zeros(dim,1);
+set_subplot(800,600);
 for i=1:dim-1
     [u,v]=TwoFramesLK(images{i},images{i+1},3,i,false);
     map=zeros(size(u,1),size(u,2));

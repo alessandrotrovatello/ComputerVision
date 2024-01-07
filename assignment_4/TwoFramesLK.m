@@ -16,7 +16,7 @@ subplot(2,2,1)
 imshow(At)
 title(['Frame ' num2str(index)]);
 subplot(2,2,2)
-imshow(At+1)
+imshow(At1)
 title(['Frame ' num2str(index+1)]);
 
 %figure(2)
@@ -36,5 +36,4 @@ end
 %COMMENTA QUESTA RIGA:
 %quiver(Reduce((Reduce(medfilt2(flipud(U),[5 5])))), -Reduce((Reduce(medfilt2(flipud(V),[5 5])))), 0), axis equal
 
-set_subplot(800,600);
 end
