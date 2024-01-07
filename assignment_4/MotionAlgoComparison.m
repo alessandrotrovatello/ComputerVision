@@ -16,7 +16,7 @@ for i=1:numberOfImages-2
     images{i} = imread(i+".ppm");
 end
 
-[Mt2,numberOfImages,N]=background_model_based(false); % Set the parameter to 'true' to print the frames
+[Mt2,numberOfImages,N]=background_model_based(true); % Set the parameter to 'true' to print the frames
 dim=max(size(images));
 u=zeros(dim,1);
 v=zeros(dim,1);
