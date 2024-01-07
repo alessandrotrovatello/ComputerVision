@@ -1,7 +1,8 @@
 %% Background model based
 
-function [Mt,numberOfImages,N]=background_model_based(print_images)
+function [Mt,numberOfImages,N]=background_model_based(images,print_images)
 % INPUT:
+%       images: dataset of images
 %       print_images: boolean variable to choose if print the images.
 % OUTPUT:
 %       Mt: Binary map.
@@ -10,16 +11,8 @@ function [Mt,numberOfImages,N]=background_model_based(print_images)
 %---------------------------------------------------------------------
 % on running average to incorporate scene changes
  
-%addpath('Data\videosurveillance\'), elements_list = dir(fullfile('Data\videosurveillance\'));
-addpath('Data\stennis\'), elements_list = dir(fullfile('Data\stennis\'));
+numberOfImages = length(images);
 
-numberOfImages = length(elements_list);
-images = cell(1,numberOfImages-2);
- 
-for i=1:numberOfImages-2
-    images{i} = imread(i+".ppm");
-end
- 
 % Let's use the first N  frames to initialize the background
 N = 5;
  
